@@ -1,0 +1,25 @@
+
+version: "3"
+services:
+  jenkins:
+    # replace username/repo:tag with your name and image details
+    image: jenkinsci/blueocean
+    user: root
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: "1"
+          memory: 256M
+      restart_policy:
+        condition: on-failure
+    volumes:
+      - "/opt/jenkins:/var/jenkins_home"
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    networks:
+      - jenkins_web
+networks:
+  jenkins_web:
+

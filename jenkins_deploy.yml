@@ -1,0 +1,21 @@
+#!/usr/bin/ansible-playbook
+---
+- hosts: tdoc1
+  become: yes
+  tasks:
+
+    - name: Create jenkins filesystem
+      file:
+        state: directory
+        path: /opt/jenkins
+        mode: 0755
+        owner: root
+        group: root
+
+    - name: deploy jenkins as a container
+      copy:
+        src: ~/jenkins/jenkins-compose.yml
+        dest: ~/
+        mode: 0644
+    - name: Start the stack...
+      shell: docker stack deploy -c ~/jenkins-compose.yml jenkins
